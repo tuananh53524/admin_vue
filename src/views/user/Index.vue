@@ -12,7 +12,7 @@
           />
         </div>
         <div class="col-2">
-      <button class="btn btn-primary" type="submit">Search</button>
+          <button class="btn btn-primary" type="submit">Search</button>
         </div>
       </div>
     </form>
@@ -26,16 +26,16 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>1</td>
-          <td>John Doe</td>
-          <td>johndoe@example.com</td>
+        <tr v-for="(user,index) in users" :key="index">
+          <td>{{ user.id }}</td>
+          <td>{{ user.name }}</td>
+          <td>{{ user.email }}</td>
           <td>
             <button class="btn btn-primary btn-sm">Edit</button>
             <button class="btn btn-danger btn-sm ms-2">Delete</button>
           </td>
         </tr>
-        <tr>
+        <!-- <tr>
           <td>2</td>
           <td>Jane Smith</td>
           <td>janesmith@example.com</td>
@@ -43,7 +43,7 @@
             <button class="btn btn-primary btn-sm">Edit</button>
             <button class="btn btn-danger btn-sm ms-2">Delete</button>
           </td>
-        </tr>
+        </tr> -->
         <!-- Add more user rows here -->
       </tbody>
     </table>
@@ -65,19 +65,19 @@
 </template>
 
 <script setup>
-  import { userStore } from '@/stores/userStore';
-  import { ref } from 'vue';
+import { userStore } from "@/stores/userStore";
+import { ref } from "vue";
 
-  const userStoredata = userStore();
+const userStoredata = userStore();
 
-  const users = ref([]);
-  const params = ref({});
+const users = ref([]);
+const params = ref({});
 
-  const listUsers = async () => { 
-    users.value = await userStoredata.fetch(params.value)
-  }
-  listUsers();
-  console.log(users.value);
+const listUsers = async () => {
+  const { data, status } = await userStoredata.fetch(params.value);
+  users.value = data.data;
+};
+listUsers();
 </script>
 
 <style scoped></style>
