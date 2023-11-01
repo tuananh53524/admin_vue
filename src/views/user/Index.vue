@@ -1,6 +1,11 @@
 <template>
   <div>
-    <h1>User Table</h1>
+    <div class="d-flex align-items-center justify-content-between">
+      <h1>User Table</h1>
+      <div class="group-action">
+        <router-link to="user/create">New User <i class="fa-solid fa-plus"></i></router-link>
+      </div>
+    </div>
     <form>
       <div class="row">
         <div class="mb-3 col-2">
@@ -26,12 +31,12 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(user,index) in users" :key="index">
+        <tr v-for="(user, index) in users" :key="index">
           <td>{{ user.id }}</td>
           <td>{{ user.name }}</td>
           <td>{{ user.email }}</td>
           <td>
-            <button class="btn btn-primary btn-sm">Edit</button>
+            <router-link :to="`/user/edit/${ user.id  }`"><button class="btn btn-primary btn-sm">Edit</button></router-link>
             <button class="btn btn-danger btn-sm ms-2">Delete</button>
           </td>
         </tr>
@@ -66,12 +71,12 @@
 
 <script setup>
 import { userStore } from "@/stores/userStore";
-import { ref } from "vue";
+import { ref, reactive } from "vue";
 
 const userStoredata = userStore();
 
 const users = ref([]);
-const params = ref({});
+const params = reactive({});
 
 const listUsers = async () => {
   const { data, status } = await userStoredata.fetch(params.value);

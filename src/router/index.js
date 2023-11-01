@@ -21,6 +21,16 @@ const routes = [
         component: () => import("../views/user/Index.vue"),
       },
       {
+        path: "/user/create",
+        name: "UserCreate",
+        component: () => import("../views/user/Form.vue"),
+      },
+      {
+        path: "/user/edit/:id",
+        name: "UserEdit",
+        component: () => import("../views/user/Form.vue"),
+      },
+      {
         path: "/about",
         name: "about",
         component: () => import("../views/AboutView.vue"),
