@@ -41,6 +41,15 @@
           </ul>
         </li>
         <hr class="dropdown-divider bg-white" />
+        <li class="nav-item">
+          <router-link to="/role">
+            <div class="d-flex text-white px-2 align-items-center">
+              <i class="fa-solid fa-clipboard-list"></i>
+              <span class="d-inline-block ms-2">Roles</span>
+            </div>
+          </router-link>
+        </li>
+        <hr class="dropdown-divider bg-white" />
       </ul>
     </nav>
     <div class="container-fluid pt-2">

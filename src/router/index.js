@@ -30,6 +30,12 @@ const routes = [
         name: "UserEdit",
         component: () => import("../views/user/Form.vue"),
       },
+      // role and permissions
+      {
+        path: "/role",
+        name: "Role",
+        component: () => import("../views/role/Index.vue"),
+      },
       {
         path: "/about",
         name: "about",

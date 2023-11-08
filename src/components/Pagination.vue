@@ -17,7 +17,7 @@ import { useRouter, useRoute } from 'vue-router'
 const route = useRoute()
 const {page, per_page} = route.query
 
-const pageSize = ref(per_page ?? 10)
+const pageSize = ref(per_page ?? 20)
 const props = defineProps({
   pagination: {
     page:Number,
