@@ -32,56 +32,57 @@
       </thead>
       <tbody>
         <tr v-for="(user, index) in users" :key="index">
-          <td>{{ user.id }}</td>
+          <td>{{ ((params.page - 1) * params.per_page) + (++index) }}</td>
           <td>{{ user.name }}</td>
           <td>{{ user.email }}</td>
           <td>
             <router-link :to="`/user/edit/${ user.id  }`"><button class="btn btn-primary btn-sm">Edit</button></router-link>
-            <button class="btn btn-danger btn-sm ms-2">Delete</button>
+            <button class="btn btn-danger btn-sm ms-2" @click="deleteUser(user.id)">Delete</button>
           </td>
         </tr>
-        <!-- <tr>
-          <td>2</td>
-          <td>Jane Smith</td>
-          <td>janesmith@example.com</td>
-          <td>
-            <button class="btn btn-primary btn-sm">Edit</button>
-            <button class="btn btn-danger btn-sm ms-2">Delete</button>
-          </td>
-        </tr> -->
-        <!-- Add more user rows here -->
       </tbody>
     </table>
-    <nav>
-      <ul class="pagination justify-content-end">
-        <li class="page-item disabled">
-          <a class="page-link" href="#" tabindex="-1" aria-disabled="true"
-            >Prev</a
-          >
-        </li>
-        <li class="page-item"><a class="page-link" href="#">1</a></li>
-        <li class="page-item"><a class="page-link" href="#">2</a></li>
-        <li class="page-item">
-          <a class="page-link" href="#">Next</a>
-        </li>
-      </ul>
-    </nav>
+    <pagination :pagination="paginationData" @reloadData="reloadData"></pagination>
   </div>
 </template>
 
 <script setup>
 import { userStore } from "@/stores/userStore";
 import { ref, reactive } from "vue";
-
+import { useRoute } from 'vue-router'
+import Pagination from '@/components/Pagination.vue'
+const route = useRoute()
+const {page, per_page} = route.query
 const userStoredata = userStore();
 
 const users = ref([]);
-const params = reactive({});
+
+
+
+const params = reactive({page: page ?? 1, per_page:per_page ?? 20});
+console.log(params)
+const paginationData =  reactive({total: 0})
+
 
 const listUsers = async () => {
-  const { data, status } = await userStoredata.fetch(params.value);
+  const { data, status } = await userStoredata.fetch(params);
   users.value = data.data;
+  paginationData.total = data.total;
 };
+
+const reloadData = async ({page, per_page}) => {
+  params.page = page
+  params.per_page = per_page
+  await listUsers()
+}
+
+const deleteUser = async(id) => {
+  if (!window.confirm('Are you sure?')) {
+		return
+	}
+	await userStoredata.delete(id);
+  await listUsers();
+}
 listUsers();
 </script>
 

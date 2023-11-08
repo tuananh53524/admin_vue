@@ -1,6 +1,5 @@
 import { defineStore } from "pinia";
 import request from "@/utils/request";
-// import axios from "axios";
 
 export const userStore = defineStore("UserStore", {
   actions: {
@@ -12,7 +11,7 @@ export const userStore = defineStore("UserStore", {
     // Fetch single role
     show(id) {
       return new Promise((resolve, reject) => {
-        axios
+        request
           .get(`/users/${id}`)
           .then((res) => resolve(res))
           .catch((err) => reject(err));
@@ -22,7 +21,7 @@ export const userStore = defineStore("UserStore", {
     // Create role
     create(params) {
       return new Promise((resolve, reject) => {
-        axios
+        request
           .post("/users", params)
           .then((res) => resolve(res))
           .catch((err) => reject(err));
@@ -32,8 +31,8 @@ export const userStore = defineStore("UserStore", {
     // Update role
     update(params) {
       return new Promise((resolve, reject) => {
-        axios
-          .put(`/users/${params.id}`, params)
+        request
+          .post(`/users/${params.id}`, params)
           .then((res) => resolve(res))
           .catch((err) => reject(err));
       });
@@ -42,7 +41,7 @@ export const userStore = defineStore("UserStore", {
     // Delete role
     delete(id) {
       return new Promise((resolve, reject) => {
-        axios
+        request
           .delete(`/users/${id}`)
           .then((response) => resolve(response))
           .catch((error) => reject(error));
